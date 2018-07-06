@@ -80,7 +80,7 @@ for sample in toProcess :
         #############################################################
         # Get pointers to branches used in this analysis
         branchEvent = treeReader.UseBranch("Event")
-        branchJet = treeReader.UseBranch("GenJet")
+        branchJet = treeReader.UseBranch("Jet")
         branchParticle = treeReader.UseBranch("Particle")
         for entry in range(0, numberOfEntries):
             print "entry = "+str(entry)+" ================================================================="
@@ -104,53 +104,31 @@ for sample in toProcess :
                IsPU = genparticle.IsPU
                status = genparticle.M1
                #########################
-               if genparticle.M1 > len(branchParticle) : continue
-               if genparticle.D1 > len(branchParticle) : continue
-               if genparticle.D2 > len(branchParticle) : continue
-               if genparticle.D2 > 50 : continue
-               #mother =  branchParticle.At(genparticle.M1)
-               #print( "mother type " , type(branchParticle.At(genparticle.M1)) , genparticle.M1 , len(branchParticle))
-               #motherPID = mother.PID
-               #if IsPU == 0 and pdgCode == 25 : print (genparticle.M1, genparticle.D2, genparticle.D1, genparticle)
-               #if not type(branchParticle.At(genparticle.D1)) == type(branchParticle[0].At(branchParticle[0].D1)) :
-               #   print "bingo"
-               #   continue
-               #if genparticle.M1 > 5 : continue
-               if IsPU == 0 and pdgCode == 25 :
-                   #print "particle "+str(part)+" "+str(pdgCode)
-                   daughter =  branchParticle.At(genparticle.D1)
-                   daughterPID = daughter.PID
-                   if daughterPID != 25 :
-                       HiggsType = HiggsType + 1
-                       print "H mother: "+str(branchParticle.At(genparticle.M1).PID)
-                       GenHs.append(genparticle) # find other way to follow
-                       print "H decay: "+str(branchParticle.At(genparticle.D1).PID)+ " "+str(branchParticle.At(genparticle.D2).PID)
-               if(IsPU == 0 and (abs(pdgCode) == 24)):
-                  if((abs(branchParticle.At(genparticle.D1).PID) != 24)) :
-                     GenVs.append(genparticle) # find other way to follow
-                     print "V decay: "+str(branchParticle.At(genparticle.D1).PID)+" "+str(branchParticle.At(genparticle.D2).PID)
-                     continue
-               if(IsPU == 0 and (abs(pdgCode) == 23) ):
-                  #print "W mother: "+str(motherPID)
-                  if((abs(branchParticle.At(genparticle.D1).PID) != 23)) :
-                     GenVs.append(genparticle) # find other way to follow
-                     print "V decay: "+str(branchParticle.At(genparticle.D1).PID)+" "+str(branchParticle.At(genparticle.D2).PID)
-                     continue
-               if(IsPU == 0 and (abs(pdgCode) == 15)):
-                   mother =  branchParticle.At(genparticle.M1)
-                   motherPID = mother.PID
-                   #print "Tau mother: "+str(motherPID)
-                   if(branchParticle.At(genparticle.D1).PID != 15) :
-                      GenTaus.append(genparticle) # find other way to follow
-                      print "Tau decay: "+str(branchParticle.At(genparticle.D1).PID)+" "+str(branchParticle.At(genparticle.D2).PID)
-                      continue
-               if (IsPU == 0 and (abs(pdgCode) == 5) and abs(branchParticle.At(genparticle.M1).PID ) != 5 ): # > 6000000
+               if IsPU == 0 and pdgCode == 25 and genparticle.Status == 22 :
+                   # print (pdgCode, genparticle.Status)
+                   GenHs.append(genparticle)
+               if IsPU == 0 and abs(pdgCode) == 24  and genparticle.Status == 22 :
+                  #print (pdgCode, genparticle.Status)
+                  GenVs.append(genparticle)
+               if IsPU == 0 and abs(pdgCode) == 23  and genparticle.Status == 22 :
+                  #print (pdgCode, genparticle.Status)
+                  GenVs.append(genparticle)
+               if IsPU == 0 and (abs(pdgCode) == 15) and genparticle.Status == 2 :
+                   #print (pdgCode, genparticle.Status)
+                   GenTaus.append(genparticle)
+               if IsPU == 0 and abs(pdgCode) == 5  and genparticle.Status == 23 :
+                  #print (pdgCode, genparticle.Status)
                   if genparticle.PT > 10 :
                       dumb = ROOT.TLorentzVector()
                       dumb.SetPtEtaPhiM(genparticle.PT,genparticle.Eta,genparticle.Phi,genparticle.Mass)
                       GenBs.append(dumb)
-                      #print "b mother: "+str(genparticle.M1)+" "+str(dumb.Pt())
-            print ("number of Higgses ", HiggsType)
+            print ("number of Higgses / taus / V's / b's", len(GenHs), len(GenTaus), len(GenVs), len(GenBs))
+            if len(GenHs) != 2 :
+                print "not two H's"
+                break
+            #### Implement
+            # findTauPairFromH
+            # findTauPairFromV
             RecoJets = []
             RecoBJets = []
             for part in range(0, branchJet.GetEntries()): # add one more collection to the delphes card
