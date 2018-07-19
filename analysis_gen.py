@@ -81,7 +81,20 @@ for sample in toProcess :
         # Get pointers to branches used in this analysis
         branchEvent = treeReader.UseBranch("Event")
         branchJet = treeReader.UseBranch("Jet")
+        branchJet = treeReader.UseBranch("JetPUPPI")
         branchParticle = treeReader.UseBranch("Particle")
+        branchPhotonLoose = treeReader.UseBranch("PhotonLoose")
+        branchPhotonTight = treeReader.UseBranch("PhotonTight")
+        branchMuonLoose = treeReader.UseBranch("MuonLoose")
+        branchMuonTight = treeReader.UseBranch("MuonTight")
+        branchElectron = treeReader.UseBranch("Electron")
+        branchMuonLooseCHS = treeReader.UseBranch("MuonLooseCHS")
+        branchMuonTightCHS = treeReader.UseBranch("MuonTightCHS")
+        branchElectronCHS = treeReader.UseBranch("ElectronCHS")
+        branchMissingET = treeReader.UseBranch("MissingET")
+        branchPuppiMissingET = treeReader.UseBranch("PuppiMissingET")
+        branchScalarHT = treeReader.UseBranch("ScalarHT")
+
         for entry in range(0, numberOfEntries):
             print "entry = "+str(entry)+" ================================================================="
             # Load selected branches with data from specified event
@@ -138,6 +151,7 @@ for sample in toProcess :
                    dumb.SetPtEtaPhiM(jet.PT,jet.Eta,jet.Phi,jet.Mass)
                    RecoJets.append(dumb)
                    RecoBJets.append(isbtagged(dumb, GenBs))
+                   print jet.TauTag
                    ## using the DR with the genParticles to find out if there is a b-quark
             numbb = 0
             for i in range(0, len(RecoBJets)) : numbb += RecoBJets[i];
