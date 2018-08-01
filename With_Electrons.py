@@ -52,7 +52,7 @@ file.close()
 execfile("Matching_Taus.py")
 execfile("Matching_Ws.py")
 execfile("Matching_Zs.py")
-#execfile("bjos_trying.py")
+execfile("func_of_genp.py")
 #########################
 # Cuts
 #########################
@@ -142,12 +142,12 @@ for sample in toProcess :
             HH_TT=[]
             HH_WW=[]
             HH_ZZ=[]
-            REAL_taus=[]           
-            #N_Of_Ev_2tau=[]
-            #s=0
+            vectZ=ROOT.TLorentzVector()
+            vectW=ROOT.TLorentzVector()
+            vectT=ROOT.TLorentzVector()
+            dumb=ROOT.TLorentzVector()          
             #########
-           
-            #print branchParticle.GetEntries()
+	    #print branchParticle.GetEntries()
             HiggsType = 0
             for part in range(0, branchParticle.GetEntries()):
                 genparticle =  branchParticle.At(part)
@@ -156,49 +156,12 @@ for sample in toProcess :
                 IsPU = genparticle.IsPU
                 status = genparticle.M1
                 charge=genparticle.Charge
-               #########################
-                if IsPU==0 and pdgCode==13 and genparticle.Status==1:                 
-                    #print ("(pdgCode, genparticle.Status)____",pdgCode, genparticle.Status)
-                    GenMs.append(genparticle)
-                if IsPU==0 and pdgCode==11 and genparticle.Status==1:
-                    #print ("(pdgCode, genparticle.Status)____",pdgCode, genparticle.Status)
-                    GenEs.append(genparticle)
-                if IsPU == 0 and pdgCode == 25 and genparticle.Status==22:
-                    #print ("(pdgCode, genparticle.Status)____",pdgCode, genparticle.Status)
-                    GenHs.append(genparticle)
-                if IsPU == 0 and abs(pdgCode) == 24  and genparticle.Status == 22 :
-                    #print (pdgCode, genparticle.Status)
-                    GenVs.append(genparticle)
-                    vectW=ROOT.TLorentzVector()
-                    vectW.SetPtEtaPhiM(genparticle.PT,genparticle.Eta,genparticle.Phi,genparticle.Mass)
-                    HH_WW.append(vectW)   
-                if IsPU == 0 and abs(pdgCode) == 23  and genparticle.Status == 22 :
-                    #print (pdgCode, genparticle.Status)
-                    GenVs.append(genparticle)
-                    vectZ=ROOT.TLorentzVector()
-                    vectZ.SetPtEtaPhiM(genparticle.PT,genparticle.Eta,genparticle.Phi,genparticle.Mass)
-                    HH_ZZ.append(vectZ)   
-                if IsPU == 0 and (abs(pdgCode) == 15) and genparticle.Status == 2 :
-                    #print ("(pdgCode, genparticle.Status)____",pdgCode, genparticle.Status)
-                    GenTaus.append(genparticle)
-                    vectT=ROOT.TLorentzVector()
-                    vectT.SetPtEtaPhiM(genparticle.PT,genparticle.Eta,genparticle.Phi,genparticle.Mass)
-                    HH_TT.append(vectT)
-                    #print charge
-                    #print ("in this event there are ",len(HH_TT) ,"particles")
-                if IsPU == 0 and abs(pdgCode) == 5  and genparticle.Status == 23 :
-                    #print (pdgCode, genparticle.Status)
-                    if genparticle.PT > 10 :
-                        dumb = ROOT.TLorentzVector()
-                        dumb.SetPtEtaPhiM(genparticle.PT,genparticle.Eta,genparticle.Phi,genparticle.Mass)
-                        GenBs.append(dumb)
+                print g(GenBs,GenVs,GenTaus,GenHs,GenEs,GenMs,HH_TT,HH_WW,HH_ZZ,vectZ,vectT,vectW,dumb)
+            #########################
             if len(HH_TT)==5 and len(GenHs)==2:
                 N_Of_Ev_5tau.append(1)
             else:
                 N_Of_Ev_5tau.append(0)
-                
-            #print ("number of Higgses / taus / V's / b's / E's / M's", len(GenHs), len(GenTaus), len(GenVs), len(GenBs), len(GenEs),len(GenMs))
-            
             if len(GenHs) != 2 :
                 print "not two H's"
                 break
