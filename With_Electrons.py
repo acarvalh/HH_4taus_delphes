@@ -31,7 +31,7 @@ toProcess = [str(inputFile)]
 if ".root" not in inputFile :
     toProcess = glob.glob(str(inputFile)+'/*.root')
 print ("the first sample is: ", toProcess[0], " of a total of ",len(toProcess),"samples")
-print(inputFile)
+#print(inputFile)
 file = open(os.getcwd()+'/samplesList.txt',"w")
 file.write(str(glob.glob(str(inputFile)+'/*.root')))
 file.close()
@@ -45,14 +45,60 @@ file.close()
 #f=open(os.getcwd()+'/Folder_HHTo4T/'+'str(B[0])'+'_Out'+'.root',"w")    
 #f = open(os.getcwd()+'/Folder_HHTo4T/'+str(C[0])+'_Out'+'.txt', 'w')
 #sys.stdout = f
+########################### TREE OF CATEGORIES
+fi=ROOT.TFile("Categories.root","recreate")
+A=['l>=4_0tauh','3l_1tauh','2l_2tauh','1l_3tauh','l<=1_0tauh','2l_0tauh','3l_0tauh','2l_1tauh','1l_2tauh','5l_1tauh','4l_2tauh','0l_2tauh']
+print("number of categories___",len(A))
+br_Njets=array('i',[0])
+br_countEvent=array('i',[0])
 
+a=ROOT.TTree("l>=4_0tauh","tree title")
+b=ROOT.TTree('3l_1tauh',"tree title")
+c=ROOT.TTree('2l_2tauh',"tree title") 
+d=ROOT.TTree('1l_3tauh',"tree title")
+e=ROOT.TTree('l<=1_0tauh',"tree title")
+m=ROOT.TTree('2l_0tauh',"tree title")
+p=ROOT.TTree('3l_0tauh',"tree title")
+h=ROOT.TTree('2l_1tauh',"tree title")
+ii=ROOT.TTree('1l_2tauh',"tree title")
+jj=ROOT.TTree('5l_1tauh',"tree title")
+k=ROOT.TTree('4l_2tauh',"tree title")
+l=ROOT.TTree('0l_2tauh',"tree title")
 
+a.Branch('countEvent',br_countEvent,'countEvent/I')
+b.Branch('countEvent',br_countEvent,'countEvent/I')
+c.Branch('countEvent',br_countEvent,'countEvent/I')
+d.Branch('countEvent',br_countEvent,'countEvent/I')
+e.Branch('countEvent',br_countEvent,'countEvent/I')
+m.Branch('countEvent',br_countEvent,'countEvent/I')
+p.Branch('countEvent',br_countEvent,'countEvent/I')
+h.Branch('countEvent',br_countEvent,'countEvent/I')
+ii.Branch('countEvent',br_countEvent,'countEvent/I')
+jj.Branch('countEvent',br_countEvent,'countEvent/I')
+k.Branch('countEvent',br_countEvent,'countEvent/I')
+l.Branch('countEvent',br_countEvent,'countEvent/I')
 
+a.Branch('Njets',br_Njets,'Njets/I')
+b.Branch('Njets',br_Njets,'Njets/I')
+c.Branch('Njets',br_Njets,'Njets/I')
+d.Branch('Njets',br_Njets,'Njets/I')
+e.Branch('Njets',br_Njets,'Njets/I')
+m.Branch('Njets',br_Njets,'Njets/I')
+p.Branch('Njets',br_Njets,'Njets/I')
+h.Branch('Njets',br_Njets,'Njets/I')
+ii.Branch('Njets',br_Njets,'Njets/I')
+jj.Branch('Njets',br_Njets,'Njets/I')
+k.Branch('Njets',br_Njets,'Njets/I')
+l.Branch('Njets',br_Njets,'Njets/I')
+#print c
+fi.Write()
+print c
 ########################   matching
 execfile("Matching_Taus.py")
 execfile("Matching_Ws.py")
 execfile("Matching_Zs.py")
 execfile("func_of_genp.py")
+#execfile("Treeee.py")
 #########################
 # Cuts
 #########################
@@ -76,7 +122,6 @@ tuple.Branch('Weights', br_Weights, 'Weights/D')
 HH=tuple.Branch('Hs',br_Hs,'Hs/I')
 E=tuple.Branch('Es',br_Es,'Es/I')
 M=tuple.Branch('Ms',br_Ms,'Ms/I')
-
 #############################################################
 # Loop over file list
 #############################################################
@@ -109,24 +154,41 @@ for sample in toProcess :
     print sample+" has "+str(numberOfEntries)+" events "
     totEvt = totEvt + numberOfEntries
     if not onlyCount :
+        
         #############################################################
         # Loop over all events
         #############################################################
         # Get pointers to branches used in this analysis
+        branchEvent = treeReader.UseBranch("Event")
+        branchJet = treeReader.UseBranch("Jet")
+        branchJet = treeReader.UseBranch("JetPUPPI")
+        branchParticle = treeReader.UseBranch("Particle")
+        branchPhotonLoose = treeReader.UseBranch("PhotonLoose")
+        branchPhotonTight = treeReader.UseBranch("PhotonTight")
+        branchMuonLoose = treeReader.UseBranch("MuonLoose")  #
+        branchMuonTight = treeReader.UseBranch("MuonTight")
+        branchElectron = treeReader.UseBranch("Electron")    #
+        branchMuonLooseCHS = treeReader.UseBranch("MuonLooseCHS")
+        branchMuonTightCHS = treeReader.UseBranch("MuonTightCHS")
+        branchElectronCHS = treeReader.UseBranch("ElectronCHS")
+        branchMissingET = treeReader.UseBranch("MissingET")
+        branchPuppiMissingET = treeReader.UseBranch("PuppiMissingET")
+        branchScalarHT = treeReader.UseBranch("ScalarHT")
+
         for i in range(0,len(toProcess)):
             f=toProcess[i].split("/")
             C.append(f[-1])
-        
-    	#B=str(A[-1])
-    	#C=B.split(".")
-    	#print C[0]   
         execfile("bjos_trying.py")
-        branchEvent = treeReader.UseBranch("Event")
-        branchJet = treeReader.UseBranch("Jet")
-        branchParticle = treeReader.UseBranch("Particle")
+    	##B=str(A[-1])
+    	##C=B.split(".")
+    	##print C[0]   
+        #branchEvent = treeReader.UseBranch("Event")
+        #branchJet = treeReader.UseBranch("Jet")
+        #branchParticle = treeReader.UseBranch("Particle")
         for entry in range(0, numberOfEntries):
             #print "entry = "+str(entry)+" ================================================================="
             # Load selected branches with data from specified event
+            
             treeReader.ReadEntry(entry)
             ## NLO samples can have negative weights
             Weights = sign(branchEvent.At(0).Weight)
@@ -156,7 +218,8 @@ for sample in toProcess :
                 IsPU = genparticle.IsPU
                 status = genparticle.M1
                 charge=genparticle.Charge
-                print g(GenBs,GenVs,GenTaus,GenHs,GenEs,GenMs,HH_TT,HH_WW,HH_ZZ,vectZ,vectT,vectW,dumb)
+                g(GenBs,GenVs,GenTaus,GenHs,GenEs,GenMs,HH_TT,HH_WW,HH_ZZ,vectZ,vectT,vectW,dumb)
+                #print ("number of Higgses / taus / V's / b's / E's / M's", len(GenHs), len(GenTaus), len(GenVs), len(GenBs), len(GenEs),len(GenMs)) 
             #########################
             if len(HH_TT)==5 and len(GenHs)==2:
                 N_Of_Ev_5tau.append(1)
@@ -190,8 +253,31 @@ for sample in toProcess :
             br_nJets[0] = int(nJets)
             br_nBs[0] = int(nBs)
             tuple.Fill()
+            ######################## CATEGORIES
+            countElpear=0
+            Recoleptons=[]
+            RecoTauh=[]
+            Els=[]
+            countEvs=[]
+            #print c
+            for part in range(0,branchElectron.GetEntries()):
+                electron=branchElectron.At(part)
+                if electron.PT>9 and abs(electron.Eta)<2.4: 
+                    Els.append(1)
+                else: Els.append(0)
+                if Els.count(1)==2:
+                    countEvs.append(1)
+                else: countEvs.append(0)
+        
+                br_countEvent[0]=int(countEvs.count(1))
+                c.Fill()
+                fi.Write()
             
-            ########################   Matching 2 Taus / 2V-s
+                
+            
+            #print ("electron pair number/# of events with 2 electrons========",countElpear)
+
+	    ########################   Matching 2 Taus / 2V-s
             ifTaus=[]
             ifWs=[]
             ifZs=[]
@@ -232,37 +318,57 @@ for sample in toProcess :
                 M.Fill()
                 
 #########################
+#fi.Close()
 print "processed "+str(totEvt)+" "
-
-if not onlyCount :
-    for i in range(0,len(C)):
-        out_file = ROOT.TFile(os.getcwd()+'/Folder_HHTo4T/'+str(C[i])+'_Out'+'.root', 'RECREATE')    ####    out_file = ROOT.TFile("teste111.root", 'RECREATE')
-        out_file.WriteTObject(tuple, tuple.GetName(), 'Overwrite')
-        out_file.Close()
-#############################################################################################################################               
-print("Number of events with 5 Taus  ",N_Of_Ev_5tau.count(1))
-print ("Number of tau pairs", len(ifTaus))
-print ("Number of  W pairs", len(ifWs))
-print ("Number of Z pairs",len(ifZs))
-###################### Hist. of masses of 2 Taus /// 2 Bozons
-
-print ("Number of needed Tau pairs", ifTaus.count(1))
-print ("Number of needed W pairs",ifWs.count(1))
-print("Number of needed Z pairs",ifZs.count(1))
-print("length of HH_TT / HH_WW // HH_ZZ ",len(HH_TT),len(HH_WW),len(HH_ZZ)) 
-
-########################
 c2=histMass_W.Draw()
 c3=histMass_Z.Draw()
 histMass_T.Draw()
+
+if not onlyCount :
+    for i in range(0,len(C)):
+        out_file = ROOT.TFile(os.getcwd()+'/Folder_HHTo4T/'+'Out_'+str(C[i]), 'RECREATE')    ####    out_file = ROOT.TFile("teste111.root", 'RECREATE')
+        out_file.WriteTObject(tuple, tuple.GetName(), 'Overwrite')
+        out_file.Write()
+        out_file.Close()
+    oout_file=ROOT.TFile('Categories.root','RECREATE')
+    oout_file.WriteTObject(a, a.GetName(), 'Overwrite')
+    oout_file.WriteTObject(b, b.GetName(), 'Overwrite')
+    oout_file.WriteTObject(c, c.GetName(), 'Overwrite')
+    oout_file.WriteTObject(d, d.GetName(), 'Overwrite')
+    oout_file.WriteTObject(e, e.GetName(), 'Overwrite')
+    oout_file.WriteTObject(m, m.GetName(), 'Overwrite')
+    oout_file.WriteTObject(p, p.GetName(), 'Overwrite')
+    oout_file.WriteTObject(h, h.GetName(), 'Overwrite')
+    oout_file.WriteTObject(ii, ii.GetName(), 'Overwrite')
+    oout_file.WriteTObject(jj, jj.GetName(), 'Overwrite')
+    oout_file.WriteTObject(k, k.GetName(), 'Overwrite')
+    oout_file.WriteTObject(l, l.GetName(), 'Overwrite')
+    oout_file.Write()
+    oout_file.Close()
+#sys.stdout=orig_stdout
+#f.close()
+#############################################################################################################################               
+#print("Number of events with 5 Taus  ",N_Of_Ev_5tau.count(1))
+#print ("Number of tau pairs", len(ifTaus))
+#print ("Number of  W pairs", len(ifWs))
+#print ("Number of Z pairs",len(ifZs))
+###################### Hist. of masses of 2 Taus /// 2 Bozons
+#print ("electron pair number/# of events with 2 electrons========",countElpear)
+#print ("Number of needed Tau pairs", ifTaus.count(1))
+#print ("Number of needed W pairs",ifWs.count(1))
+#print("Number of needed Z pairs",ifZs.count(1))
+#print("length of HH_TT / HH_WW // HH_ZZ ",len(HH_TT),len(HH_WW),len(HH_ZZ)) 
+
+########################
+
+
 #################################### FOLDER
 
 #sys.stdout=orig_stdout
-#f.close()
-
-
 
 raw_input()
+
+
 
 
 
