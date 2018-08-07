@@ -46,6 +46,8 @@ file.close()
 #f = open(os.getcwd()+'/Folder_HHTo4T/'+str(C[0])+'_Out'+'.txt', 'w')
 #sys.stdout = f
 ########################### TREE OF CATEGORIES
+nn=[]
+ax=[]
 fi=ROOT.TFile("Categories.root","recreate")
 A=['l>=4_0tauh','3l_1tauh','2l_2tauh','1l_3tauh','l<=1_0tauh','2l_0tauh','3l_0tauh','2l_1tauh','1l_2tauh','5l_1tauh','4l_2tauh','0l_2tauh']
 print("number of categories___",len(A))
@@ -91,7 +93,7 @@ jj.Branch('Njets',br_Njets,'Njets/I')
 k.Branch('Njets',br_Njets,'Njets/I')
 l.Branch('Njets',br_Njets,'Njets/I')
 #print c
-fi.Write()
+#fi.Write()
 print c
 ########################   matching
 execfile("Matching_Taus.py")
@@ -138,6 +140,7 @@ Weights = 1
 Tau21 = -1.
 N_Of_Ev_5tau=[]
 
+histNumb_of_jets=ROOT.TH1D("number of jets in category 2l-tauh","number of jets in category 2l-tauh",50,0,10)
 histMass_T=ROOT.TH1D("Mass of Taus","Mass Of Taus",500,0,200)
 histMass_W=ROOT.TH1D("Mass of the W-s","Mass of the W-s",1000,0,300)
 histMass_Z=ROOT.TH1D("Mass of the Z-s","Mass of the Z-s",1000,0,300)
@@ -254,28 +257,55 @@ for sample in toProcess :
             br_nBs[0] = int(nBs)
             tuple.Fill()
             ######################## CATEGORIES
-            countElpear=0
-            Recoleptons=[]
-            RecoTauh=[]
+            countMUpair=0
+            countElpair=0
+            countJetpair=0
+            count_Muon=0
+            count_Elect=0
+            Muons=[]
             Els=[]
-            countEvs=[]
+            jetss=[]
+          
             #print c
+            ############################################################  M U O N
+            for part in range(0,branchMuonLoose.GetEntries()):
+                muon=branchMuonLoose.At(part)
+                if muon.PT>9 and abs(muon.Eta)<2.4: 
+                    Muons.append(1)
+            numbMuons=np.sum(Muons)
+            
+            ############################################################# E L E C T R O N
             for part in range(0,branchElectron.GetEntries()):
                 electron=branchElectron.At(part)
-                if electron.PT>9 and abs(electron.Eta)<2.4: 
+                if electron.PT>13 and abs(electron.Eta)<2.5: 
                     Els.append(1)
                 else: Els.append(0)
-                if Els.count(1)==2:
-                    countEvs.append(1)
-                else: countEvs.append(0)
-        
-                br_countEvent[0]=int(countEvs.count(1))
-                c.Fill()
-                fi.Write()
+	    numbEls=np.sum(Els)
             
-                
+            #print np.sum(Els)
+            ############################################################## J E T 
+
+            for part in range(0, branchJet.GetEntries()): # add one more collection to the delphes card
+                jet =  branchJet.At(part)
+                if jet.PT > 20 and abs(jet.Eta)<2.3 :
+                    jetss.append(1)
+                else: jetss.append(0)
+	    numbjetss=np.sum(jetss)
+            #####################    Category 2l_2tauh 
+            #ax=[]
+            if numbMuons==2 and numbjetss==2 or numbEls==2 and numbjetss==2 or numbEls==1 and numbMuons==1 and numbjetss==2:
+                nn.append(1)
+                ax.append(len(jetss))
+            else: 
+		nn.append(0)
+		ax.append(0)
             
-            #print ("electron pair number/# of events with 2 electrons========",countElpear)
+            #print ("number of jets in this category", np.sum(ax))
+            
+            #br_countEvent[0]=nn
+            #c.Fill()
+            
+            #print ("electron pair number/# of events with 2 electrons========",countElpair)
 
 	    ########################   Matching 2 Taus / 2V-s
             ifTaus=[]
@@ -289,6 +319,7 @@ for sample in toProcess :
             ################  HIST.
 
             #print ("HH_TT-shi elementebis (anu tauebis) raodenobaa  ",len(HH_TT))
+            
             
             for  i in range(0,len(HH_TT)):
                 for j in range(i,len(HH_TT)):  
@@ -320,14 +351,33 @@ for sample in toProcess :
 #########################
 #fi.Close()
 print "processed "+str(totEvt)+" "
+
+nnn=np.sum(nn) ###### total number of events for category 2l_2tauh
+print ("TOTAL number of jets in category 2l-2tauh",np.sum(ax))
+print len(ax)
+for i  in range(0,len(ax)):
+    histNumb_of_jets.Fill(ax[i])
+    
+histNumb_of_jets.Draw()
+
+
+for i in range(0,len(nn)):
+    br_countEvent[0]=int(nnn)
+    c.Fill()
+fi.Write()
+#fi.Close()
 c2=histMass_W.Draw()
 c3=histMass_Z.Draw()
 histMass_T.Draw()
-
+histNumb_of_jets.Draw()
+raw_input()
 if not onlyCount :
     for i in range(0,len(C)):
         out_file = ROOT.TFile(os.getcwd()+'/Folder_HHTo4T/'+'Out_'+str(C[i]), 'RECREATE')    ####    out_file = ROOT.TFile("teste111.root", 'RECREATE')
         out_file.WriteTObject(tuple, tuple.GetName(), 'Overwrite')
+        out_file.WriteTObject(HH,HH.GetName(),'Overwrite')
+        out_file.WriteTObject(Ms,Ms.GetName(),'Overwrite')
+        out_file.WriteTObject(Es,Es.GetName(),'overwrite')
         out_file.Write()
         out_file.Close()
     oout_file=ROOT.TFile('Categories.root','RECREATE')
@@ -345,6 +395,7 @@ if not onlyCount :
     oout_file.WriteTObject(l, l.GetName(), 'Overwrite')
     oout_file.Write()
     oout_file.Close()
+
 #sys.stdout=orig_stdout
 #f.close()
 #############################################################################################################################               
@@ -353,7 +404,7 @@ if not onlyCount :
 #print ("Number of  W pairs", len(ifWs))
 #print ("Number of Z pairs",len(ifZs))
 ###################### Hist. of masses of 2 Taus /// 2 Bozons
-#print ("electron pair number/# of events with 2 electrons========",countElpear)
+#print ("electron pair number/# of events with 2 electrons========",countElpair)
 #print ("Number of needed Tau pairs", ifTaus.count(1))
 #print ("Number of needed W pairs",ifWs.count(1))
 #print("Number of needed Z pairs",ifZs.count(1))
@@ -365,11 +416,6 @@ if not onlyCount :
 #################################### FOLDER
 
 #sys.stdout=orig_stdout
-
 raw_input()
-
-
-
-
 
 
