@@ -46,8 +46,31 @@ file.close()
 #f = open(os.getcwd()+'/Folder_HHTo4T/'+str(C[0])+'_Out'+'.txt', 'w')
 #sys.stdout = f
 ########################### TREE OF CATEGORIES
-nn=[]
-ax=[]
+a8l_0t=[]                                       ##### numb of event with this category
+a3l_1t=[]                                       ##### numb of event with this category
+a2l_2t=[]                                       ##### numb of event with this category
+a1l_3t=[]                                       ##### numb of event with this category
+a01l_0t=[]                                      ##### numb of event with this category
+a2l_0t=[]                                       ##### numb of event with this category
+a3l_0t=[]                                       ##### numb of event with this category
+a2l_1t=[]                                       ##### numb of event with this category
+a1l_2t=[]                                       ##### numb of event with this category
+a5l_1t=[]                                       ##### numb of event with this category
+a4l_2t=[]                                       ##### numb of event with this category
+a0l_2t=[]                                       ##### numb of event with this category
+jet_in_8l_0t=[]
+jet_in_3l_1t=[]
+jet_in_2l_2t=[]
+jet_in_1l_3t=[]
+jet_in_01l_0t=[]
+jet_in_2l_0t=[]
+jet_in_3l_0t=[]
+jet_in_2l_1t=[]
+jet_in_1l_2t=[]
+jet_in_5l_1t=[]
+jet_in_4l_2t=[]
+jet_in_0l_2t=[]
+
 fi=ROOT.TFile("Categories.root","recreate")
 A=['l>=4_0tauh','3l_1tauh','2l_2tauh','1l_3tauh','l<=1_0tauh','2l_0tauh','3l_0tauh','2l_1tauh','1l_2tauh','5l_1tauh','4l_2tauh','0l_2tauh']
 print("number of categories___",len(A))
@@ -140,7 +163,20 @@ Weights = 1
 Tau21 = -1.
 N_Of_Ev_5tau=[]
 
-histNumb_of_jets=ROOT.TH1D("number of jets in category 2l-tauh","number of jets in category 2l-tauh",50,0,10)
+histNumb_of_jets_8l_0t=ROOT.TH1D("number of jets in category l>=4_0tauh","number of jets in category l>=4_0tauh",200,0,100)
+histNumb_of_jets_3l_1t=ROOT.TH1D("number of jets in category 3l_1tauh","number of jets in category 3l_1tauh",200,0,100)
+histNumb_of_jets_2l_2t=ROOT.TH1D("number of jets in category 2l_2tauh","number of jets in category 2l_2tauh",200,40,100)
+histNumb_of_jets_1l_3t=ROOT.TH1D("number of jets in category 1l_3tauh","number of jets in category 1l_3tauh",200,40,100)
+histNumb_of_jets_01l_0t=ROOT.TH1D("number of jets in category l<=1_0tauh","number of jets in category l<=1_0tauh",1000,500,1000)
+histNumb_of_jets_2l_0t=ROOT.TH1D("number of jets in category 2l_0tauh","number of jets in category 2l_0tauh",500,200,500)
+histNumb_of_jets_3l_0t=ROOT.TH1D("number of jets in category 3l_0tauh","number of jets in category 3l_0tauh",500,0,500)
+histNumb_of_jets_2l_1t=ROOT.TH1D("number of jets in category 2l_1tauh","number of jets in category 2l_1tauh",500,0,500)
+histNumb_of_jets_1l_2t=ROOT.TH1D("number of jets in category 1l_2tauh","number of jets in category 1l_2tauh",500,0,500)
+histNumb_of_jets_5l_1t=ROOT.TH1D("number of jets in category 5l_1tauh","number of jets in category 5l_1tauh",100,0,100)
+histNumb_of_jets_4l_2t=ROOT.TH1D("number of jets in category 4l_2tauh","number of jets in category 4l_2tauh",100,0,100)
+histNumb_of_jets_0l_2t=ROOT.TH1D("number of jets in category 0l_2tauh","number of jets in category 0l_2tauh",700,0,700)
+
+
 histMass_T=ROOT.TH1D("Mass of Taus","Mass Of Taus",500,0,200)
 histMass_W=ROOT.TH1D("Mass of the W-s","Mass of the W-s",1000,0,300)
 histMass_Z=ROOT.TH1D("Mass of the Z-s","Mass of the Z-s",1000,0,300)
@@ -257,56 +293,142 @@ for sample in toProcess :
             br_nBs[0] = int(nBs)
             tuple.Fill()
             ######################## CATEGORIES
-            countMUpair=0
-            countElpair=0
-            countJetpair=0
-            count_Muon=0
-            count_Elect=0
-            Muons=[]
-            Els=[]
-            jetss=[]
+            muon_charge=[]
+            electron_charge=[]
+            tauhs_charge=[]
+            Muons=[]  ###### if yes, 1...if no 0
+            Els=[]    ###### if yes, 1...if no 0
+            tauhs=[]  ###### if yes, 1...if no 0
+            JET=[]    ###### other than tauhs
           
             #print c
             ############################################################  M U O N
             for part in range(0,branchMuonLoose.GetEntries()):
                 muon=branchMuonLoose.At(part)
-                if muon.PT>9 and abs(muon.Eta)<2.4: 
-                    Muons.append(1)
-            numbMuons=np.sum(Muons)
+                if muon.PT>9 and abs(muon.Eta)<2.4:
+                    vectmuon=ROOT.TLorentzVector(muon.PT,muon.Eta,muon.Phi,muon.T)
+                    #vectmuon.SetPtEtaPhiT(muon.PT,muon.Eta,muon.Phi,muon.T) 
+                    Muons.append(vectmuon)
+                    muon_charge.append(muon.Charge)
+                
+            numbMuons=np.sum(len(Muons))  ######## those events that contains those 2 muons
             
             ############################################################# E L E C T R O N
             for part in range(0,branchElectron.GetEntries()):
                 electron=branchElectron.At(part)
                 if electron.PT>13 and abs(electron.Eta)<2.5: 
-                    Els.append(1)
-                else: Els.append(0)
-	    numbEls=np.sum(Els)
+                    vectelect=ROOT.TLorentzVector(electron.PT,electron.Eta,electron.Phi,electron.T)
+                    #vectelect.SetPtEtaPhiT(muon.PT,muon.Eta,muon.Phi,muon.T) 
+                    Els.append(vectelect)
+                    electron_charge.append(electron.Charge)
+                
+	    numbEls=np.sum(len(Els))   ######## those events that contains those 2 electrons
             
-            #print np.sum(Els)
-            ############################################################## J E T 
+
+            ############################################################## JETS/TAUHS
 
             for part in range(0, branchJet.GetEntries()): # add one more collection to the delphes card
                 jet =  branchJet.At(part)
-                if jet.PT > 20 and abs(jet.Eta)<2.3 :
-                    jetss.append(1)
-                else: jetss.append(0)
-	    numbjetss=np.sum(jetss)
-            #####################    Category 2l_2tauh 
-            #ax=[]
-            if numbMuons==2 and numbjetss==2 or numbEls==2 and numbjetss==2 or numbEls==1 and numbMuons==1 and numbjetss==2:
-                nn.append(1)
-                ax.append(len(jetss))
-            else: 
-		nn.append(0)
-		ax.append(0)
+                if jet.TauTag:
+                    if jet.PT > 20 and abs(jet.Eta)<2.3 :
+                        vecttau=ROOT.TLorentzVector()
+                        vecttau.SetPtEtaPhiM(jet.PT,jet.Eta,jet.Phi,jet.Mass)
+                        tauhs.append(vecttau)
+                        tauhs_charge.append(jet.Charge)
+                else: JET.append(1)
             
-            #print ("number of jets in this category", np.sum(ax))
+	    numb_with_tauhs=np.sum(len(tauhs))    ######## those events that contains those 2 tauhs
             
-            #br_countEvent[0]=nn
-            #c.Fill()
             
-            #print ("electron pair number/# of events with 2 electrons========",countElpair)
+            ##################### counting events in Categories
 
+            if numbMuons+numbEls>=4 and numbMuons+numbEls<=8:
+                a8l_0t.append(1)
+                jet_in_8l_0t.append(JET.count(1))
+            else:
+                a8l_0t.append(0)
+                jet_in_8l_0t.append(0)
+            ####
+    	    if numbMuons+numbEls==3 and numb_with_tauhs==1:
+		a3l_1t.append(1)
+		jet_in_3l_1t.append(JET.count(1))
+	    else:
+		a3l_1t.append(0)
+		jet_in_3l_1t.append(0)
+            ####
+            if numbMuons==2 and numb_with_tauhs==2 or numbEls==2 and numb_with_tauhs==2 or numbEls==1 and numbMuons==1 and numb_with_tauhs==2:
+	    #if numbMuons+numbEls==2 and numb_with_tauhs==2:
+                a2l_2t.append(1)
+                jet_in_2l_2t.append(JET.count(1))
+            else: 
+		a2l_2t.append(0)
+		jet_in_2l_2t.append(0)
+            ####
+            if numbMuons+numbEls==1 and numb_with_tauhs==3:
+                a1l_3t.append(1)
+                jet_in_1l_3t.append(JET.count(1))
+            else: 
+		a1l_3t.append(0)
+		jet_in_1l_3t.append(0)  
+	    ####
+            if numbMuons+numbEls<=1 and numb_with_tauhs==0:
+                a01l_0t.append(1)
+                jet_in_01l_0t.append(JET.count(1))
+            else: 
+		a01l_0t.append(0)
+		jet_in_01l_0t.append(0)
+            ####
+	    if numbMuons+numbEls==2 and numb_with_tauhs==0:
+                a2l_0t.append(1)
+                jet_in_2l_0t.append(JET.count(1))
+            else: 
+		a2l_0t.append(0)
+		jet_in_2l_0t.append(0)
+            ####
+	    if numbMuons+numbEls==3 and numb_with_tauhs==0:
+                a3l_0t.append(1)
+                jet_in_3l_0t.append(JET.count(1))
+            else: 
+		a3l_0t.append(0)
+		jet_in_3l_0t.append(0)
+            ####
+	    if numbMuons+numbEls==2 and numb_with_tauhs==1:
+                a2l_1t.append(1)
+                jet_in_2l_1t.append(JET.count(1))
+            else: 
+		a2l_1t.append(0)
+		jet_in_2l_1t.append(0)
+            ####
+	    if numbMuons+numbEls==1 and numb_with_tauhs==2:
+                a1l_2t.append(1)
+                jet_in_1l_2t.append(JET.count(1))
+            else: 
+		a1l_2t.append(0)
+		jet_in_1l_2t.append(0)
+            ####
+	    if numbMuons+numbEls==5 and numb_with_tauhs==1:
+                a5l_1t.append(1)
+                jet_in_5l_1t.append(JET.count(1))
+            else: 
+		a5l_1t.append(0)
+		jet_in_5l_1t.append(0)
+            ####
+	    if numbMuons+numbEls==4 and numb_with_tauhs==2:
+                a4l_2t.append(1)
+                jet_in_4l_2t.append(JET.count(1))
+            else: 
+		a4l_2t.append(0)
+		jet_in_4l_2t.append(0)
+            ####
+	    if numbMuons+numbEls==0 and numb_with_tauhs==2:
+                a0l_2t.append(1)
+                jet_in_0l_2t.append(JET.count(1))
+            else: 
+		a0l_2t.append(0)
+		jet_in_0l_2t.append(0)
+
+            ##################### Category 
+              
 	    ########################   Matching 2 Taus / 2V-s
             ifTaus=[]
             ifWs=[]
@@ -352,25 +474,169 @@ for sample in toProcess :
 #fi.Close()
 print "processed "+str(totEvt)+" "
 
-nnn=np.sum(nn) ###### total number of events for category 2l_2tauh
-print ("TOTAL number of jets in category 2l-2tauh",np.sum(ax))
-print len(ax)
-for i  in range(0,len(ax)):
-    histNumb_of_jets.Fill(ax[i])
-    
-histNumb_of_jets.Draw()
+tot_numb_8l_0t=np.sum(a8l_0t) ###### total number of events for category l>=4_0tauh
+tot_numb_3l_1t=np.sum(a3l_1t) ###### total number of events for category 3l_1tauh
+tot_numb_2l_2t=np.sum(a2l_2t) ###### total number of events for category 2l_2tauh
+tot_numb_1l_3t=np.sum(a1l_3t) ###### total number of events for category 1l_3tauh
+tot_numb_01l_0t=np.sum(a01l_0t) ###### total number of events for category l<=1_0tauh
+tot_numb_2l_0t=np.sum(a2l_0t) ###### total number of events for category 2l_0tauh
+tot_numb_3l_0t=np.sum(a3l_0t) ###### total number of events for category 3l_0tauh
+tot_numb_2l_1t=np.sum(a2l_1t) ###### total number of events for category 2l_1tauh
+tot_numb_1l_2t=np.sum(a1l_2t) ###### total number of events for category 1l_2tauh
+tot_numb_5l_1t=np.sum(a5l_1t) ###### total number of events for category 5l_1tauh
+tot_numb_4l_2t=np.sum(a4l_2t) ###### total number of events for category 4l_2tauh
+tot_numb_0l_2t=np.sum(a0l_2t) ###### total number of events for category 0l_2tauh
 
 
-for i in range(0,len(nn)):
-    br_countEvent[0]=int(nnn)
+print("total number of events for category l>=4_0tauh",tot_numb_8l_0t)
+print("total number of events for category 3l_1tauh",tot_numb_3l_1t)
+print("total number of events for category 2l_2tauh",tot_numb_2l_2t)
+print("total number of events for category 1l_3tauh",tot_numb_1l_3t)
+print("total number of events for category l<=1_0tauh",tot_numb_01l_0t)
+print("total number of events for category 2l_0tauh",tot_numb_2l_0t)
+print("total number of events for category 3l_0tauh",tot_numb_3l_0t)
+print("total number of events for category 2l_1tauh",tot_numb_2l_1t)
+print("total number of events for category 1l_2tauh",tot_numb_1l_2t)
+print("total number of events for category 5l_1tauh",tot_numb_5l_1t)
+print("total number of events for category 4l_2tauh",tot_numb_4l_2t)
+print("total number of events for category 0l_2tauh",tot_numb_0l_2t)
+
+
+print ("TOTAL number of jets in category l>=4_0tauh",np.sum(jet_in_8l_0t))
+print ("TOTAL number of jets in category 3l_1tauh",np.sum(jet_in_3l_1t))
+print ("TOTAL number of jets in category 2l_2tauh",np.sum(jet_in_2l_2t))
+print ("TOTAL number of jets in category 1l_3tauh",np.sum(jet_in_1l_3t))
+print ("TOTAL number of jets in category l<=1_0tauh",np.sum(jet_in_01l_0t))
+print ("TOTAL number of jets in category 2l_0tauh",np.sum(jet_in_2l_0t))
+print ("TOTAL number of jets in category 3l_0tauh",np.sum(jet_in_3l_0t))
+print ("TOTAL number of jets in category 2l_1tauh",np.sum(jet_in_2l_1t))
+print ("TOTAL number of jets in category 1l_2tauh",np.sum(jet_in_1l_2t))
+print ("TOTAL number of jets in category 5l_1tauh",np.sum(jet_in_5l_1t))
+print ("TOTAL number of jets in category 4l_2tauh",np.sum(jet_in_4l_2t))
+print ("TOTAL number of jets in category 0l_2tauh",np.sum(jet_in_0l_2t))
+
+
+numb_jet_in_8l_0t=np.sum(jet_in_8l_0t)
+numb_jet_in_3l_1t=np.sum(jet_in_3l_1t)
+numb_jet_in_2l_2t=np.sum(jet_in_2l_2t)
+numb_jet_in_1l_3t=np.sum(jet_in_1l_3t)
+numb_jet_in_01l_0t=np.sum(jet_in_01l_0t)
+numb_jet_in_2l_0t=np.sum(jet_in_2l_0t)
+numb_jet_in_3l_0t=np.sum(jet_in_3l_0t)
+numb_jet_in_2l_1t=np.sum(jet_in_2l_1t)
+numb_jet_in_1l_2t=np.sum(jet_in_1l_2t)
+numb_jet_in_5l_1t=np.sum(jet_in_5l_1t)
+numb_jet_in_4l_2t=np.sum(jet_in_4l_2t)
+numb_jet_in_0l_2t=np.sum(jet_in_0l_2t)
+
+
+for i  in range(0,tot_numb_8l_0t):
+    histNumb_of_jets_8l_0t.Fill(numb_jet_in_8l_0t)
+
+for i  in range(0,tot_numb_3l_1t):
+    histNumb_of_jets_3l_1t.Fill(numb_jet_in_3l_1t)
+
+for i  in range(0,tot_numb_2l_2t):
+    histNumb_of_jets_2l_2t.Fill(numb_jet_in_2l_2t)
+
+for i  in range(0,tot_numb_1l_3t):
+    histNumb_of_jets_1l_3t.Fill(numb_jet_in_1l_3t)
+
+for i  in range(0,tot_numb_01l_0t):
+    histNumb_of_jets_01l_0t.Fill(numb_jet_in_01l_0t)
+
+for i  in range(0,tot_numb_2l_0t):
+    histNumb_of_jets_2l_0t.Fill(numb_jet_in_2l_0t)
+
+for i  in range(0,tot_numb_3l_0t):
+    histNumb_of_jets_3l_0t.Fill(numb_jet_in_3l_0t)
+
+for i  in range(0,tot_numb_2l_1t):
+    histNumb_of_jets_2l_1t.Fill(numb_jet_in_2l_1t)
+
+for i  in range(0,tot_numb_1l_2t):
+    histNumb_of_jets_1l_2t.Fill(numb_jet_in_1l_2t)
+
+for i  in range(0,tot_numb_5l_1t):
+    histNumb_of_jets_5l_1t.Fill(numb_jet_in_5l_1t)
+
+for i  in range(0,tot_numb_4l_2t):
+    histNumb_of_jets_4l_2t.Fill(numb_jet_in_4l_2t)
+
+for i  in range(0,tot_numb_0l_2t):
+    histNumb_of_jets_0l_2t.Fill(numb_jet_in_0l_2t)
+################################## filling the branch
+
+for i in range(0,len(a8l_0t)):
+    br_countEvent[0]=int(tot_numb_8l_0t)
+    br_Njets[0]=jet_in_8l_0t[i]
+    a.Fill()
+for i in range(0,len(a3l_1t)):
+    br_countEvent[0]=int(tot_numb_3l_1t)
+    br_Njets[0]=jet_in_3l_1t[i]
+    b.Fill()
+for i in range(0,len(a2l_2t)):
+    br_countEvent[0]=int(tot_numb_2l_2t)
+    br_Njets[0]=jet_in_2l_2t[i]
     c.Fill()
+for i in range(0,len(a1l_3t)):
+    br_countEvent[0]=int(tot_numb_1l_3t)
+    br_Njets[0]=jet_in_1l_3t[i]
+    d.Fill()
+for i in range(0,len(a01l_0t)):
+    br_countEvent[0]=int(tot_numb_01l_0t)
+    br_Njets[0]=jet_in_01l_0t[i]
+    e.Fill()
+for i in range(0,len(a2l_0t)):
+    br_countEvent[0]=int(tot_numb_2l_0t)
+    br_Njets[0]=jet_in_2l_0t[i]
+    m.Fill()
+for i in range(0,len(a3l_0t)):
+    br_countEvent[0]=int(tot_numb_3l_0t)
+    br_Njets[0]=jet_in_3l_0t[i]
+    p.Fill()
+for i in range(0,len(a2l_1t)):
+    br_countEvent[0]=int(tot_numb_2l_1t)
+    br_Njets[0]=jet_in_2l_1t[i]
+    h.Fill()
+for i in range(0,len(a1l_2t)):
+    br_countEvent[0]=int(tot_numb_1l_2t)
+    br_Njets[0]=jet_in_1l_2t[i]
+    ii.Fill()
+for i in range(0,len(a5l_1t)):
+    br_countEvent[0]=int(tot_numb_5l_1t)
+    br_Njets[0]=jet_in_5l_1t[i]
+    jj.Fill()
+for i in range(0,len(a4l_2t)):
+    br_countEvent[0]=int(tot_numb_4l_2t)
+    br_Njets[0]=jet_in_4l_2t[i]
+    k.Fill()
+for i in range(0,len(a0l_2t)):
+    br_countEvent[0]=int(tot_numb_0l_2t)
+    br_Njets[0]=jet_in_0l_2t[i]
+    l.Fill()
 fi.Write()
-#fi.Close()
+
+##################### drawing
 c2=histMass_W.Draw()
 c3=histMass_Z.Draw()
 histMass_T.Draw()
-histNumb_of_jets.Draw()
+
+histNumb_of_jets_8l_0t.Draw()
+histNumb_of_jets_3l_1t.Draw()
+histNumb_of_jets_2l_2t.Draw()
+histNumb_of_jets_1l_3t.Draw()
+histNumb_of_jets_01l_0t.Draw()
+histNumb_of_jets_2l_0t.Draw()
+histNumb_of_jets_3l_0t.Draw()
+histNumb_of_jets_2l_1t.Draw()
+histNumb_of_jets_1l_2t.Draw()
+histNumb_of_jets_5l_1t.Draw()
+histNumb_of_jets_4l_2t.Draw()
+histNumb_of_jets_0l_2t.Draw()
+
 raw_input()
+
 if not onlyCount :
     for i in range(0,len(C)):
         out_file = ROOT.TFile(os.getcwd()+'/Folder_HHTo4T/'+'Out_'+str(C[i]), 'RECREATE')    ####    out_file = ROOT.TFile("teste111.root", 'RECREATE')
@@ -396,6 +662,7 @@ if not onlyCount :
     oout_file.Write()
     oout_file.Close()
 
+
 #sys.stdout=orig_stdout
 #f.close()
 #############################################################################################################################               
@@ -404,7 +671,6 @@ if not onlyCount :
 #print ("Number of  W pairs", len(ifWs))
 #print ("Number of Z pairs",len(ifZs))
 ###################### Hist. of masses of 2 Taus /// 2 Bozons
-#print ("electron pair number/# of events with 2 electrons========",countElpair)
 #print ("Number of needed Tau pairs", ifTaus.count(1))
 #print ("Number of needed W pairs",ifWs.count(1))
 #print("Number of needed Z pairs",ifZs.count(1))
