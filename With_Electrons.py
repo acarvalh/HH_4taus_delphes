@@ -463,7 +463,7 @@ for sample in toProcess :
 
             ######################## Filling Branches
             
-            #for i in range(0,branchParticle.GetEntries()):
+            #i in range(0,branchParticle.GetEntries()):
             br_Hs[0]=int(len(GenHs))
             br_Es[0]=int(len(GenEs))
             br_Ms[0]=len(GenMs)
@@ -551,32 +551,32 @@ tot_numb_4l_2t=np.sum(a4l_2t) ###### total number of events for category 4l_2tau
 tot_numb_0l_2t=np.sum(a0l_2t) ###### total number of events for category 0l_2tauh
 
 
-#print("total number of events for category l>=4_0tauh",tot_numb_8l_0t)
-#print("total number of events for category 3l_1tauh",tot_numb_3l_1t)
-#print("total number of events for category 2l_2tauh",tot_numb_2l_2t)
-#print("total number of events for category 1l_3tauh",tot_numb_1l_3t)
-#print("total number of events for category l<=1_0tauh",tot_numb_01l_0t)
-#print("total number of events for category 2l_0tauh",tot_numb_2l_0t)
-#print("total number of events for category 3l_0tauh",tot_numb_3l_0t)
-#print("total number of events for category 2l_1tauh",tot_numb_2l_1t)
-#print("total number of events for category 1l_2tauh",tot_numb_1l_2t)
-#print("total number of events for category 5l_1tauh",tot_numb_5l_1t)
-#print("total number of events for category 4l_2tauh",tot_numb_4l_2t)
-#print("total number of events for category 0l_2tauh",tot_numb_0l_2t)
+print("total number of events for category l>=4_0tauh",tot_numb_8l_0t)
+print("total number of events for category 3l_1tauh",tot_numb_3l_1t)
+print("total number of events for category 2l_2tauh",tot_numb_2l_2t)
+print("total number of events for category 1l_3tauh",tot_numb_1l_3t)
+print("total number of events for category l<=1_0tauh",tot_numb_01l_0t)
+print("total number of events for category 2l_0tauh",tot_numb_2l_0t)
+print("total number of events for category 3l_0tauh",tot_numb_3l_0t)
+print("total number of events for category 2l_1tauh",tot_numb_2l_1t)
+print("total number of events for category 1l_2tauh",tot_numb_1l_2t)
+print("total number of events for category 5l_1tauh",tot_numb_5l_1t)
+print("total number of events for category 4l_2tauh",tot_numb_4l_2t)
+print("total number of events for category 0l_2tauh",tot_numb_0l_2t)
 
 
-#print ("TOTAL number of jets in category l>=4_0tauh",np.sum(jet_in_8l_0t))
-#print ("TOTAL number of jets in category 3l_1tauh",np.sum(jet_in_3l_1t))
-#print ("TOTAL number of jets in category 2l_2tauh",np.sum(jet_in_2l_2t))
-#print ("TOTAL number of jets in category 1l_3tauh",np.sum(jet_in_1l_3t))
-#print ("TOTAL number of jets in category l<=1_0tauh",np.sum(jet_in_01l_0t))
-#print ("TOTAL number of jets in category 2l_0tauh",np.sum(jet_in_2l_0t))
-#print ("TOTAL number of jets in category 3l_0tauh",np.sum(jet_in_3l_0t))
-#print ("TOTAL number of jets in category 2l_1tauh",np.sum(jet_in_2l_1t))
-#print ("TOTAL number of jets in category 1l_2tauh",np.sum(jet_in_1l_2t))
-#print ("TOTAL number of jets in category 5l_1tauh",np.sum(jet_in_5l_1t))
-#print ("TOTAL number of jets in category 4l_2tauh",np.sum(jet_in_4l_2t))
-#print ("TOTAL number of jets in category 0l_2tauh",np.sum(jet_in_0l_2t))
+print ("TOTAL number of jets in category l>=4_0tauh",np.sum(jet_in_8l_0t))
+print ("TOTAL number of jets in category 3l_1tauh",np.sum(jet_in_3l_1t))
+print ("TOTAL number of jets in category 2l_2tauh",np.sum(jet_in_2l_2t))
+print ("TOTAL number of jets in category 1l_3tauh",np.sum(jet_in_1l_3t))
+print ("TOTAL number of jets in category l<=1_0tauh",np.sum(jet_in_01l_0t))
+print ("TOTAL number of jets in category 2l_0tauh",np.sum(jet_in_2l_0t))
+print ("TOTAL number of jets in category 3l_0tauh",np.sum(jet_in_3l_0t))
+print ("TOTAL number of jets in category 2l_1tauh",np.sum(jet_in_2l_1t))
+print ("TOTAL number of jets in category 1l_2tauh",np.sum(jet_in_1l_2t))
+print ("TOTAL number of jets in category 5l_1tauh",np.sum(jet_in_5l_1t))
+print ("TOTAL number of jets in category 4l_2tauh",np.sum(jet_in_4l_2t))
+print ("TOTAL number of jets in category 0l_2tauh",np.sum(jet_in_0l_2t))
 
 
 numb_jet_in_8l_0t=np.sum(jet_in_8l_0t)
@@ -687,17 +687,7 @@ histMass_T.Draw()
 
 #fc=ROOT.TFile.Open('Categories.root','read')
 canv1=TCanvas('RESULT1',"",400,400)
-#canv2=TCanvas("RESULT2","",400,400)
-#canv3=TCanvas("RESULT3","",400,400)
-#canv4=TCanvas("RESULT4","",400,400)
-#canv5=TCanvas("RESULT5","",400,400)
-#canv6=TCanvas("RESULT6","",400,400)
-#canv7=TCanvas("RESULT7","",400,400)
-#canv8=TCanvas("RESULT8","",400,400)
-#canv9=TCanvas("RESULT9","",400,400)
-#canv10=TCanvas("RESULT10","",400,400)
-#canv11=TCanvas("RESULT11","",400,400)
-#canv12=TCanvas("RESULT12","",400,400)
+
 
 canv1.cd()
 histNumb_of_jets_8l_0t.Draw()
@@ -769,46 +759,46 @@ if not onlyCount :
 #print("length of HH_TT / HH_WW // HH_ZZ ",len(HH_TT),len(HH_WW),len(HH_ZZ)) 
 
 ########################   YIELDS
-#BR_HHTo4T=0.0039337984
-#BR_HHTo4V=0.0463559
-#BR_HHTo2T2V=0.01504586
-#sigma_SM=33.86
-#Lum=3000
-#sigma_TOT=(sigma_SM)*(BR_HHTo4T)
-#if "HHTo4T" in inputFile:
-#    sigma_TOT=(sigma_SM)*(BR_HHTo4T)
+BR_HHTo4T=0.0039337984
+BR_HHTo4V=0.0463559
+BR_HHTo2T2V=0.01504586
+sigma_SM=33.86
+Lum=3000
+sigma_TOT=(sigma_SM)*(BR_HHTo4T)
+if "HHTo4T" in inputFile:
+    sigma_TOT=(sigma_SM)*(BR_HHTo4T)
     
-#if "HHTo4V" in inputFile:
-#    sigma_TOT=(sigma_SM)*(BR_HHTo4V)
+if "HHTo4V" in inputFile:
+    sigma_TOT=(sigma_SM)*(BR_HHTo4V)
     
-#if "HHTo2T2V" in inputFile:
-#    sigma_TOT=(sigma_SM)*(BR_HHTo2T2V)
+if "HHTo2T2V" in inputFile:
+    sigma_TOT=(sigma_SM)*(BR_HHTo2T2V)
    
-#Yield_8l_0t=((tot_numb_8l_0t)*(sigma_TOT)*(Lum))/1000
-#Yield_3l_1t=((tot_numb_3l_1t)*(sigma_TOT)*(Lum))/1000
-#Yield_2l_2t=((tot_numb_2l_2t)*(sigma_TOT)*(Lum))/1000
-#Yield_1l_3t=((tot_numb_1l_3t)*(sigma_TOT)*(Lum))/1000
-#Yield_01l_0t=((tot_numb_01l_0t)*(sigma_TOT)*(Lum))/1000
-#Yield_2l_0t=((tot_numb_2l_0t)*(sigma_TOT)*(Lum))/1000
-#Yield_3l_0t=((tot_numb_3l_0t)*(sigma_TOT)*(Lum))/1000
-#Yield_2l_1t=((tot_numb_2l_1t)*(sigma_TOT)*(Lum))/1000
-#Yield_1l_2t=((tot_numb_1l_2t)*(sigma_TOT)*(Lum))/1000
-#Yield_5l_1t=((tot_numb_5l_1t)*(sigma_TOT)*(Lum))/1000
-#Yield_4l_2t=((tot_numb_4l_2t)*(sigma_TOT)*(Lum))/1000
-#Yield_0l_2t=((tot_numb_0l_2t)*(sigma_TOT)*(Lum))/1000
+Yield_8l_0t=((tot_numb_8l_0t)*(sigma_TOT)*(Lum))/1000
+Yield_3l_1t=((tot_numb_3l_1t)*(sigma_TOT)*(Lum))/1000
+Yield_2l_2t=((tot_numb_2l_2t)*(sigma_TOT)*(Lum))/1000
+Yield_1l_3t=((tot_numb_1l_3t)*(sigma_TOT)*(Lum))/1000
+Yield_01l_0t=((tot_numb_01l_0t)*(sigma_TOT)*(Lum))/1000
+Yield_2l_0t=((tot_numb_2l_0t)*(sigma_TOT)*(Lum))/1000
+Yield_3l_0t=((tot_numb_3l_0t)*(sigma_TOT)*(Lum))/1000
+Yield_2l_1t=((tot_numb_2l_1t)*(sigma_TOT)*(Lum))/1000
+Yield_1l_2t=((tot_numb_1l_2t)*(sigma_TOT)*(Lum))/1000
+Yield_5l_1t=((tot_numb_5l_1t)*(sigma_TOT)*(Lum))/1000
+Yield_4l_2t=((tot_numb_4l_2t)*(sigma_TOT)*(Lum))/1000
+Yield_0l_2t=((tot_numb_0l_2t)*(sigma_TOT)*(Lum))/1000
 
-#print "Yield_8l_0t = ",Yield_8l_0t 
-#print "Yield_3l_1t = ",Yield_3l_1t
-#print "Yield_2l_2t = ",Yield_2l_2t
-#print "Yield_1l_3t = ",Yield_1l_3t
-#print "Yield_01l_0t = ",Yield_01l_0t
-#print "Yield_2l_0t = ",Yield_2l_0t
-#print "Yield_3l_0t = ",Yield_3l_0t
-#print "Yield_2l_1t = ",Yield_2l_1t
-#print "Yield_1l_2t = ",Yield_1l_2t
-#print "Yield_5l_1t = ",Yield_5l_1t
-#print "Yield_4l_2t = ",Yield_4l_2t
-#print "Yield_0l_2t = ",Yield_0l_2t
+print "Yield_8l_0t = ",Yield_8l_0t 
+print "Yield_3l_1t = ",Yield_3l_1t
+print "Yield_2l_2t = ",Yield_2l_2t
+print "Yield_1l_3t = ",Yield_1l_3t
+print "Yield_01l_0t = ",Yield_01l_0t
+print "Yield_2l_0t = ",Yield_2l_0t
+print "Yield_3l_0t = ",Yield_3l_0t
+print "Yield_2l_1t = ",Yield_2l_1t
+print "Yield_1l_2t = ",Yield_1l_2t
+print "Yield_5l_1t = ",Yield_5l_1t
+print "Yield_4l_2t = ",Yield_4l_2t
+print "Yield_0l_2t = ",Yield_0l_2t
 
 #################################### FOLDER
 
