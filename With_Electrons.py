@@ -81,7 +81,7 @@ Categories=[
     'tree_3l_3tauh',       ### missed ones   
     'tree_2l_4tauh',       ### missed ones   
     'tree_1l_5tauh',       ### missed ones     
-    'tree_total'
+    #'tree_total'
     ]
 print("number of categories___",len(Categories))
 dict_trees = OrderedDict()
@@ -518,16 +518,16 @@ for sample in toProcess :
             if passedOneCategory > 1 :
                 print "The categorries overlap!!!"
                 break
-            elif passedOneCategory == 1 : ## if passed one category count as total
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_total'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_total'][6][bb][0] = branches_double_fill[bb]
-                fill_particles_info('tree_total',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_total'][0].Fill()
+            #elif passedOneCategory == 1 : ## if passed one category count as total
+            #    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_total'][1][bb][0] = branches_int_fill[bb]
+            #    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_total'][6][bb][0] = branches_double_fill[bb]
+            #    fill_particles_info('tree_total',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+            #    dict_trees['tree_total'][0].Fill()
             
-	    if passedOneCategory==0 :
-		s.append(1)
-                print ("number of leptons", (numbMuons+numbEls),"           ", "number of tauhs", numb_with_tauhs)
-            else: s.append(0)
+	    #if passedOneCategory==0 :
+	    #	s.append(1)
+            #    print ("number of leptons", (numbMuons+numbEls),"           ", "number of tauhs", numb_with_tauhs)
+            #else: s.append(0)
             
             
             ########################   Matching 2 Taus / 2V-s
@@ -549,28 +549,50 @@ for sample in toProcess :
 #########################
 #fi.Close()
 print "processed "+str(totEvt)+" "
-
+#########################             MINE
+#output_labels=[]
+#for i in range(0,len(toProcess)):
+#    filein=toProcess[i].split('/')
+#    output_labels.append(filein[-1])             ####### for example: [...,...,..,tree_HHTo4T_220.root,....,...,..]
+#########################
 if not onlyCount :
     ### FIXME_FILENAME
     channel = "default"
     if "HHTo4T" in inputFile : channel = "HHTo4T"
     if "HHTo4V" in inputFile : channel = "HHTo4V"
     if "HHTo2T2V" in inputFile : channel = "HHTo2T2V"
-    output_label = 1
-    if len(toProcess) == 1 :                    ####when we are running separetly
-        filein=toProcess[0].split("/")
-        output_label = filein[-1]       #### f.g. tree_HHTo4T_220.root
-    base_folder = os.getcwd()+'/Folder_'+channel+'/'
-    if not os.path.exists(base_folder) : os.mkdir( base_folder )
-    nameout = base_folder+'Out_'+str(output_label)
-    out_file = ROOT.TFile(nameout, 'RECREATE')
-    out_file.WriteTObject(tuple, tuple.GetName())
+#########################              MINE
+
+#    base_folder = os.getcwd()+'/Folder_'+channel+'/'         ########## for example: ..../Folder_HHTo4T/
+#    if not os.path.exists(base_folder) : os.mkdir( base_folder )
+#    for i in range(0,len(output_labels)):
+#        nameout = base_folder+'Out_'+str(output_labels[i])   ########## for example: ..../Folder_HHTo4T/tree_HHTo4T_220.root
+#        out_file = ROOT.TFile(nameout, 'RECREATE')
+#        out_file.WriteTObject(tuple, tuple.GetName())
+##########################
+    #output_label = 1
+    #if len(toProcess) == 1 :                    ####when we are running separetly
+    #    filein=toProcess[0].split("/")
+    #    output_label = filein[-1]       #### f.g. tree_HHTo4T_220.root
+    #base_folder = os.getcwd()+'/Folder_'+channel+'/'
+    #if not os.path.exists(base_folder) : os.mkdir( base_folder )
+    #nameout = base_folder+'Out_'+str(output_label)
+    #out_file = ROOT.TFile(nameout, 'RECREATE')
+    #out_file.WriteTObject(tuple, tuple.GetName())
     ### you can save the tree categories on the same file
-    for cat in Categories : out_file.WriteTObject(dict_trees[cat][0], dict_trees[cat][0].GetName(), 'Overwrite')
+    #for cat in Categories : out_file.WriteTObject(dict_trees[cat][0], dict_trees[cat][0].GetName(), 'Overwrite') ###  but after 4 spaces also in mine
+    #out_file.Write()          ### also in mine
+    #out_file.Close()          ### also in mine
+    #print ("saved", nameout)       ### also in mine
+    name="result"
+    base_folder=os.getcwd()+'/Folder_'+channel+'/'
+    nameOut=base_folder+'Out_'+name+'.root'
+    out_file=ROOT.TFile(nameOut,'RECREATE')
+    out_file.WriteTObject(tuple,tuple.GetName())
+    for cat in Categories: out_file.WriteTObject(dict_trees[cat][0], dict_trees[cat][0].GetName(), 'Overwrite')
     out_file.Write()
     out_file.Close()
-    print ("saved", nameout)
-
+    print("saved",nameOut)	
     ########################   YIELDS
     BR_HHTo4T=0.0039337984
     BR_HHTo4V=0.0463559
@@ -606,4 +628,4 @@ if not onlyCount :
         #print dict_trees['tree_0l_2tauh'][0].GetEntries( "sum_tauh_charge != 0")
         fileWrite.close()
         print ("saved", namefiletext)
-print ("the number of missed ones________", np.sum(s))
+#print ("the number of missed ones________", np.sum(s))
