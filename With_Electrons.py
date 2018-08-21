@@ -319,6 +319,8 @@ for sample in toProcess :
                     Els.append(vectelect)
                     electron_charge.append(electron.Charge)
             numbEls=len(Els)   ######## number of those electrons in each event
+            #print sum(electron_charge)
+            
             ##################### counting events in Categories
             branches_int_fill = [
                 1, #"evtcounter",
@@ -340,6 +342,7 @@ for sample in toProcess :
             #    tauhs_inv_mass
             #    ]
             passedOneCategory = 0 ### to ensure that the categories do not overlap
+            #if (sum(electron_charge)+sum(muon_charge))==0 : print (sum(electron_charge)+sum(muon_charge)) 
             if numbMuons+numbEls>=4 and numb_with_tauhs==0 :
                 for bb, branch in enumerate(branches_int_names) : dict_trees['tree_lge4_0tauh'][1][bb][0] = branches_int_fill[bb]
                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_lge4_0tauh'][6][bb][0] = branches_double_fill[bb]
@@ -399,14 +402,16 @@ for sample in toProcess :
                 fill_particles_info('tree_0l_5getauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
                 dict_trees['tree_0l_5getauh'][0].Fill()
                 passedOneCategory+=1
-            if (numbMuons + numbEls)==2 and numb_with_tauhs==0 and np.sum(electron_charge)==0:
+            if (numbMuons + numbEls)==2 and numb_with_tauhs==0 and (sum(electron_charge)+sum(muon_charge))==0 :
+		#print (sum(electron_charge)+sum(muon_charge))
                 for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2los_0tauh'][1][bb][0] = branches_int_fill[bb]
                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2los_0tauh'][6][bb][0] = branches_double_fill[bb]
 		####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
                 fill_particles_info('tree_2los_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
                 dict_trees['tree_2los_0tauh'][0].Fill()
                 passedOneCategory+=1
-            if (numbMuons + numbEls)==2 and numb_with_tauhs==0 and np.sum(electron_charge)!=0:
+            if (numbMuons + numbEls)==2 and numb_with_tauhs==0 and (sum(electron_charge)+sum(muon_charge))!=0:
+		print (sum(electron_charge)+sum(muon_charge))
                 for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2lss_0tauh'][1][bb][0] = branches_int_fill[bb]
                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2lss_0tauh'][6][bb][0] = branches_double_fill[bb]
 		####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
