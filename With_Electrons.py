@@ -364,49 +364,55 @@ for sample in toProcess :
                 fill_particles_info('tree_lge4_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
                 dict_trees['tree_lge4_0tauh'][0].Fill()
                 passedOneCategory+=1
-            if (numbMuons + numbEls)==3 and numb_with_tauhs==1 :
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_3l_1tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_3l_1tauh'][6][bb][0] = branches_double_fill[bb]
-                fill_particles_info('tree_3l_1tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_3l_1tauh'][0].Fill()
-                passedOneCategory+=1
-            if (numbMuons + numbEls)==2 and numb_with_tauhs==2:
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2l_2tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2l_2tauh'][6][bb][0] = branches_double_fill[bb]
-                #for mm,branch in enumerate(branch_double_aaray_name) : dict_trees['tree_2l_2tauh'][7][mm][0]=branches_double_array_name_fill[mm]
-                dict_trees['tree_2l_2tauh'][7][0]=tauhsmm
-                #print tauhsmm
-                #print (tauhs[0]+tauhs[1]).M()
-                fill_particles_info('tree_2l_2tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_2l_2tauh'][0].Fill()
-                ####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
-                passedOneCategory+=1
-            if (numbMuons + numbEls)==1 and numb_with_tauhs==3:
-                for bb, branch in enumerate(branches_int_names) :  dict_trees['tree_1l_3tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_1l_3tauh'][6][bb][0] = branches_double_fill[bb]
-                fill_particles_info('tree_1l_3tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_1l_3tauh'][0].Fill()
-                passedOneCategory+=1
-            if (numbMuons + numbEls)==1 and numb_with_tauhs==0: ### review that category deffinition
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_1l_0tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_1l_0tauh'][6][bb][0] = branches_double_fill[bb]
-                fill_particles_info('tree_1l_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_1l_0tauh'][0].Fill()
-                passedOneCategory+=1
-            if (numbMuons + numbEls)==0 and numb_with_tauhs==0: ### review that category deffinition
+            if (numbMuons + numbEls)==3 and numb_with_tauhs==1 : #####using single lepton triggerS
+		if numbMuons==3 and Muons[0].Pt()>23  or                                                                                               numbEls==3 and Els[0].Pt()>27 or                                                                                                                               numbMuons!=0 and numbEls!=0 and Muons[0].Pt()>23 or                                                                                                      numbMuons!=0 and numbEls!=0 and  Els[0].Pt>27:  
+		#if Muons[0].PT()>27 or Els[0].PT()>23:_____when I tried like this in example error appeared _list index out of range. So I think the problem was when Muons or Els were empty.
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_3l_1tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_3l_1tauh'][6][bb][0] = branches_double_fill[bb]
+                    fill_particles_info('tree_3l_1tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_3l_1tauh'][0].Fill()
+                    passedOneCategory+=1
+            if (numbMuons + numbEls)==2 and numb_with_tauhs==2: #####using single lepton triggerS
+		if numbMuons==2 and Muons[0].Pt()>23  or                                                                                               numbEls==2 and Els[0].Pt()>27 or                                                                                                                               numbMuons!=0 and numbEls!=0 and Muons[0].Pt()>23 or                                                                                                      numbMuons!=0 and numbEls!=0 and  Els[0].Pt>27:
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2l_2tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2l_2tauh'][6][bb][0] = branches_double_fill[bb]
+                    #for mm,branch in enumerate(branch_double_aaray_name) : dict_trees['tree_2l_2tauh'][7][mm][0]=branches_double_array_name_fill[mm]
+                    dict_trees['tree_2l_2tauh'][7][0]=tauhsmm
+                    #print tauhsmm
+                    #print (tauhs[0]+tauhs[1]).M()
+                    fill_particles_info('tree_2l_2tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_2l_2tauh'][0].Fill()
+                    ####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
+                    passedOneCategory+=1
+            if (numbMuons + numbEls)==1 and numb_with_tauhs==3: #####using single lepton triggerS
+		if numbMuons==1 and Muons[0].Pt()>23  or numbEls==1 and Els[0].Pt()>27:
+                    for bb, branch in enumerate(branches_int_names) :  dict_trees['tree_1l_3tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_1l_3tauh'][6][bb][0] = branches_double_fill[bb]
+                    fill_particles_info('tree_1l_3tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_1l_3tauh'][0].Fill()
+                    passedOneCategory+=1
+            if (numbMuons + numbEls)==1 and numb_with_tauhs==0: #####using single lepton triggerS
+		if numbMuons==1 and Muons[0].Pt()>23  or numbEls==1 and Els[0].Pt()>27: 
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_1l_0tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_1l_0tauh'][6][bb][0] = branches_double_fill[bb]
+                    fill_particles_info('tree_1l_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_1l_0tauh'][0].Fill()
+                    passedOneCategory+=1
+            if (numbMuons + numbEls)==0 and numb_with_tauhs==0: 
                 for bb, branch in enumerate(branches_int_names) : dict_trees['tree_0l_0tauh'][1][bb][0] = branches_int_fill[bb]
                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_0l_0tauh'][6][bb][0] = branches_double_fill[bb]
                 fill_particles_info('tree_0l_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
                 dict_trees['tree_0l_0tauh'][0].Fill()
                 passedOneCategory+=1
             if (numbMuons + numbEls)==0 and numb_with_tauhs==4:
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_0l_4tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_0l_4tauh'][6][bb][0] = branches_double_fill[bb]
-                fill_particles_info('tree_0l_4tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_0l_4tauh'][0].Fill()
-                passedOneCategory+=1
-            if (numbMuons + numbEls)==0 and numb_with_tauhs==3:
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_0l_3tauh'][1][bb][0] = branches_int_fill[bb]
+		if tauhs[0].PT=45 or tauhs[0].PT>20:            #####using single lepton & tau(h)tau(h) trigger (I think this condition is extra because there is -or- and one of them is always setisfieed by this time (tauhs.PT>20), so I think this  -if ..... - can be removed, right? and this is same for other categories without leptons)
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_0l_4tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_0l_4tauh'][6][bb][0] = branches_double_fill[bb]
+                    fill_particles_info('tree_0l_4tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_0l_4tauh'][0].Fill()
+                    passedOneCategory+=1
+            if (numbMuons + numbEls)==0 and numb_with_tauhs==3:   #### same comment as the last one
+		for bb, branch in enumerate(branches_int_names) : dict_trees['tree_0l_3tauh'][1][bb][0] = branches_int_fill[bb]
                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_0l_3tauh'][6][bb][0] = branches_double_fill[bb]
                 fill_particles_info('tree_0l_3tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
                 dict_trees['tree_0l_3tauh'][0].Fill()
@@ -418,42 +424,47 @@ for sample in toProcess :
                 dict_trees['tree_0l_5getauh'][0].Fill()
                 passedOneCategory+=1
             if (numbMuons + numbEls)==2 and numb_with_tauhs==0 and (sum(electron_charge)+sum(muon_charge))==0 :
-                #print (sum(electron_charge)+sum(muon_charge))
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2los_0tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2los_0tauh'][6][bb][0] = branches_double_fill[bb]
-                ####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
-                fill_particles_info('tree_2los_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_2los_0tauh'][0].Fill()
-                passedOneCategory+=1
+		if numbMuons==2 and Muons[0].Pt()>23  or                                                                                               numbEls==2 and Els[0].Pt()>27 or                                                                                                                               numbMuons!=0 and numbEls!=0 and Muons[0].Pt()>23 or                                                                                                      numbMuons!=0 and numbEls!=0 and  Els[0].Pt>27:
+                    #print (sum(electron_charge)+sum(muon_charge))
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2los_0tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2los_0tauh'][6][bb][0] = branches_double_fill[bb]
+                    ####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
+                    fill_particles_info('tree_2los_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_2los_0tauh'][0].Fill()
+                    passedOneCategory+=1
             if (numbMuons + numbEls)==2 and numb_with_tauhs==0 and (sum(electron_charge)+sum(muon_charge))!=0:
-                #print (sum(electron_charge)+sum(muon_charge))
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2lss_0tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2lss_0tauh'][6][bb][0] = branches_double_fill[bb]
-                ####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
-                fill_particles_info('tree_2lss_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_2lss_0tauh'][0].Fill()
-                passedOneCategory+=1
+		if numbMuons==2 and Muons[0].Pt()>23  or                                                                                               numbEls==2 and Els[0].Pt()>27 or                                                                                                                               numbMuons!=0 and numbEls!=0 and Muons[0].Pt()>23 or                                                                                                      numbMuons!=0 and numbEls!=0 and  Els[0].Pt>27:
+                    #print (sum(electron_charge)+sum(muon_charge))
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2lss_0tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2lss_0tauh'][6][bb][0] = branches_double_fill[bb]
+                    ####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
+                    fill_particles_info('tree_2lss_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_2lss_0tauh'][0].Fill()
+                    passedOneCategory+=1
             if (numbMuons + numbEls)==3 and numb_with_tauhs==0:
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_3l_0tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_3l_0tauh'][6][bb][0] = branches_double_fill[bb]
-                fill_particles_info('tree_3l_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_3l_0tauh'][0].Fill()
-                passedOneCategory+=1
+		if numbMuons==3 and Muons[0].Pt()>23  or                                                                                               numbEls==3 and Els[0].Pt()>27 or                                                                                                                               numbMuons!=0 and numbEls!=0 and Muons[0].Pt()>23 or                                                                                                      numbMuons!=0 and numbEls!=0 and  Els[0].Pt>27:
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_3l_0tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_3l_0tauh'][6][bb][0] = branches_double_fill[bb]
+                    fill_particles_info('tree_3l_0tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_3l_0tauh'][0].Fill()
+                    passedOneCategory+=1
             if (numbMuons + numbEls)==2 and numb_with_tauhs==1:
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2l_1tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2l_1tauh'][6][bb][0] = branches_double_fill[bb]
-                fill_particles_info('tree_2l_1tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                ####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
-                dict_trees['tree_2l_1tauh'][0].Fill()
-                passedOneCategory+=1
-            if (numbMuons + numbEls)==1 and numb_with_tauhs==2:
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_1l_2tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_1l_2tauh'][6][bb][0] = branches_double_fill[bb]
-                #for mm,branch in enumerate(branch_double_aaray_name) : dict_trees['tree_1l_2tauh'][7][mm][0]=branches_double_array_name_fill[mm]
-                dict_trees['tree_1l_2tauh'][7][0]=tauhsmm
-                fill_particles_info('tree_1l_2tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_1l_2tauh'][0].Fill()
-                passedOneCategory+=1
+		if numbMuons==2 and Muons[0].Pt()>23  or                                                                                               numbEls==2 and Els[0].Pt()>27 or                                                                                                                               numbMuons!=0 and numbEls!=0 and Muons[0].Pt()>23 or                                                                                                      numbMuons!=0 and numbEls!=0 and  Els[0].Pt>27:
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_2l_1tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_2l_1tauh'][6][bb][0] = branches_double_fill[bb]
+                    fill_particles_info('tree_2l_1tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    ####dict_trees['tree_0l_2tauh'][7][0]=lep_inv_mass
+                    dict_trees['tree_2l_1tauh'][0].Fill()
+                    passedOneCategory+=1
+            if (numbMuons + numbEls)==1 and numb_with_tauhs==2: #####using single lepton triggerS
+		if numbMuons==1 and Muons[0].Pt()>23  or numbEls==1 and Els[0].Pt()>27:                   
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_1l_2tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_1l_2tauh'][6][bb][0] = branches_double_fill[bb]
+                    #for mm,branch in enumerate(branch_double_aaray_name) : dict_trees['tree_1l_2tauh'][7][mm][0]=branches_double_array_name_fill[mm]
+                    dict_trees['tree_1l_2tauh'][7][0]=tauhsmm
+                    fill_particles_info('tree_1l_2tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_1l_2tauh'][0].Fill()
+                    passedOneCategory+=1
             if (numbMuons + numbEls)==5 and numb_with_tauhs==1:
                 for bb, branch in enumerate(branches_int_names) : dict_trees['tree_5l_1tauh'][1][bb][0] = branches_int_fill[bb]
                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_5l_1tauh'][6][bb][0] = branches_double_fill[bb]
@@ -467,26 +478,27 @@ for sample in toProcess :
                 dict_trees['tree_4l_2tauh'][7][0]=tauhsmm
                 dict_trees['tree_4l_2tauh'][0].Fill()
                 passedOneCategory+=1
-            if (numbMuons+numbEls)==0 and numb_with_tauhs==2:
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_0l_2tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_0l_2tauh'][6][bb][0] = branches_double_fill[bb]
-                #for mm,branch in enumerate(branch_double_aaray_name) : dict_trees['tree_0l_2tauh'][7][mm][0]=branches_double_array_name_fill[mm]
-                dict_trees['tree_0l_2tauh'][7][0]=tauhsmm
-                fill_particles_info('tree_0l_2tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_0l_2tauh'][0].Fill()
-                passedOneCategory+=1
-            if (numbMuons + numbEls)==0 and numb_with_tauhs==1:
+            if (numbMuons+numbEls)==0 and numb_with_tauhs==2:  #### same comment as for category 0l_4tauh 
+		 for bb, branch in enumerate(branches_int_names) : dict_trees['tree_0l_2tauh'][1][bb][0] = branches_int_fill[bb]
+                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_0l_2tauh'][6][bb][0] = branches_double_fill[bb]
+                 #for mm,branch in enumerate(branch_double_aaray_name) : dict_trees['tree_0l_2tauh'][7][mm][0]=branches_double_array_name_fill[mm]
+                 dict_trees['tree_0l_2tauh'][7][0]=tauhsmm
+                 fill_particles_info('tree_0l_2tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                 dict_trees['tree_0l_2tauh'][0].Fill()
+                 passedOneCategory+=1
+            if (numbMuons + numbEls)==0 and numb_with_tauhs==1:  #### same comment as for category 0l_4tauh                               
                 for bb, branch in enumerate(branches_int_names) : dict_trees['tree_0l_1tauh'][1][bb][0] = branches_int_fill[bb]
                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_0l_1tauh'][6][bb][0] = branches_double_fill[bb]
                 fill_particles_info('tree_0l_1tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
                 dict_trees['tree_0l_1tauh'][0].Fill()
                 passedOneCategory+=1
-            if (numbMuons + numbEls)==1 and numb_with_tauhs==1:
-                for bb, branch in enumerate(branches_int_names) : dict_trees['tree_1l_1tauh'][1][bb][0] = branches_int_fill[bb]
-                for bb, branch in enumerate(branches_double_names) : dict_trees['tree_1l_1tauh'][6][bb][0] = branches_double_fill[bb]
-                fill_particles_info('tree_1l_1tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
-                dict_trees['tree_1l_1tauh'][0].Fill()
-                passedOneCategory+=1
+            if (numbMuons + numbEls)==1 and numb_with_tauhs==1: #####using single lepton triggerS
+		if numbMuons==1 and Muons[0].Pt()>23  or numbEls==1 and Els[0].Pt()>27:                     
+                    for bb, branch in enumerate(branches_int_names) : dict_trees['tree_1l_1tauh'][1][bb][0] = branches_int_fill[bb]
+                    for bb, branch in enumerate(branches_double_names) : dict_trees['tree_1l_1tauh'][6][bb][0] = branches_double_fill[bb]
+                    fill_particles_info('tree_1l_1tauh',  tauhs, tauhs_charge,  Muons, muon_charge, Els, electron_charge, RecoJets, RecoJetsBtag)
+                    dict_trees['tree_1l_1tauh'][0].Fill()
+                    passedOneCategory+=1
             if (numbMuons + numbEls)==3 and numb_with_tauhs==2:
                 for bb, branch in enumerate(branches_int_names) : dict_trees['tree_3l_2tauh'][1][bb][0] = branches_int_fill[bb]
                 for bb, branch in enumerate(branches_double_names) : dict_trees['tree_3l_2tauh'][6][bb][0] = branches_double_fill[bb]
